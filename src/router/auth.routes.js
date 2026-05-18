@@ -24,4 +24,11 @@ authRouter.get("/get-me", authController.getMe);
  */
 authRouter.get("/refresh-token", authController.refreshToken);
 
+/**
+ * @route GET /api/auth/logout
+ * @desc Logout user by revoking refresh token
+ * @access Private
+ */
+authRouter.get("/logout", authController.logout);
+
 export default authRouter;
