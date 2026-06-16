@@ -31,4 +31,11 @@ authRouter.get("/refresh-token", authController.refreshToken);
  */
 authRouter.get("/logout", authController.logout);
 
+/**
+ * @route GET /api/auth/logout-all
+ * @desc Logout all users by revoking all refresh tokens
+ * @access Private
+ */
+authRouter.get("/logout-all", authController.logoutAll);
+
 export default authRouter;

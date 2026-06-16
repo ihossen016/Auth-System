@@ -194,3 +194,28 @@ export async function logout(req, res) {
 
   res.status(200).json({ message: "Logged out successfully" });
 }
+
+export async function logoutAll(req, res) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Authorization header missing" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(token, config.JWT_SECRET);
+
+    await sessionModel.updateMany(
+      { user: decoded.userId, revoked: false },
+      { revoked: true },
+    );
+
+    res.clearCookie("refreshToken");
+
+    res.status(200).json({ message: "All sessions logged out successfully" });
+  } catch (error) {
+    res.status(401).json({ message: "Invalid token" });
+  }
+}
